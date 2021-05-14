@@ -1,0 +1,61 @@
+---
+title: "Test 2 rmd"
+author: "BAO YEN HO"
+date: "11/05/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+```{r}
+library(tidyverse)
+
+mac_index<-read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-12-22/big-mac.csv")
+```
+
+The *data* is loaded in a **new** variable `mac_index`
+
+```{r}
+mac_index%>%head()
+
+ country<-mac_index$name
+
+ country%>%head()
+ # saving my data as csv file
+ write_csv(mac_index,"mac_index.csv")
+ 
+ new_data<-read_csv("mac_index.csv")
+```
+
+#Avocado dataset wrangling
+```{r}
+avocado<-read_csv("avocado.csv")
+#reference variable
+avocado$AveragePrice
+avocado$`Total Volume`
+```
+The dataset is tidy but variable is not proper named
+Shortcut for r chunk creation is Ctrl+Shift+I
+```{r}
+#install.packages("janitor")
+#We should use # to comment the package to only run it once everytime we knit
+
+library(janitor)
+
+avocado<-avocado%>%
+  clean_names()
+
+avocado%>%glimpse()
+```
+
+Let's filter the data
+```{r}
+#Average price above 2.5
+avocado%>%filter(average_price>2.5)
+#Average price equal or above 2.5 AND religion is Albany
+avocado%>%filter(average_price>=2.5 & region=="Albany")
+#avocado in Albany are not that expensive, no observations with that avarage_price there
+```
+
